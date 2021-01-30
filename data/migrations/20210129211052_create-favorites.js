@@ -1,8 +1,8 @@
 exports.up = function (knex) {
-  return knex.schema.crateTable('favorites', function (table) {
+  return knex.schema.createTable('favorites', function (table) {
     table.increments('id').notNullable().unique().primary();
     table
-      .integer('users_id')
+      .string('users_id')
       .unsigned()
       .notNullable()
       .references('id')

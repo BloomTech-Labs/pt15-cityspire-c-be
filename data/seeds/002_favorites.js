@@ -1,6 +1,6 @@
 exports.seed = function (knex) {
   // Inserts seed entries
-  return knex('table_name').insert([
+  return knex('favorites').insert([
     {
       users_id: '00ulthapbErVUwVJy4x6',
       lat: 40.709397,
@@ -9,4 +9,3 @@ exports.seed = function (knex) {
     },
   ]);
 };
-s;
