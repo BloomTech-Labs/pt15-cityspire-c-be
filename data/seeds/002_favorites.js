@@ -1,8 +1,12 @@
 exports.seed = function (knex) {
   // Inserts seed entries
   return knex('table_name').insert([
-    { id: 1, colName: 'rowValue1' },
-    { id: 2, colName: 'rowValue2' },
-    { id: 3, colName: 'rowValue3' },
+    {
+      users_id: '00ulthapbErVUwVJy4x6',
+      lat: 40.709397,
+      lng: -73.9231657,
+      city_id: 'sFsd342FgsD32',
+    },
   ]);
 };
+s;

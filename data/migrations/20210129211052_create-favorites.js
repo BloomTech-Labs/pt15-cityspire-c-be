@@ -9,8 +9,8 @@ exports.up = function (knex) {
       .inTable('profiles')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.string('lat').notNullable();
-    table.string('lng').notNullable();
+    table.float('lat').notNullable();
+    table.float('lng').notNullable();
     table.string('city_id').unique().notNullable();
   });
 };
