@@ -8,8 +8,12 @@ const findByUserId = async (id) => {
   return db('favorites').where({ user_id }).select('*');
 };
 
-const create = async (profile) => {
-  return db('favorites').insert(profile).returning('*');
+const findById = async (id) => {
+  return db('favorites').where({ id }).select('*');
+};
+
+const create = async (favorite) => {
+  return db('favorites').insert(favorite).returning('*');
 };
 
 const remove = async (id) => {
@@ -21,4 +25,5 @@ module.exports = {
   findByUserId,
   create,
   remove,
+  findById,
 };
