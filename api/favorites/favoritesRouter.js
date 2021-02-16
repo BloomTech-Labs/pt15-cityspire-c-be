@@ -52,7 +52,7 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', function (req, res) {
+router.get('/', authRequired, function (req, res) {
   Favorites.findAll()
     .then((favorites) => {
       res.status(200).json(favorites);
@@ -98,7 +98,7 @@ router.get('/', function (req, res) {
  *      404:
  *        description: 'User not found'
  */
-router.get('/:userId', function (req, res) {
+router.get('/:userId', authRequired, function (req, res) {
   const id = String(req.params.userId);
   Favorites.findByUserId(id)
     .then((favorite) => {
@@ -151,7 +151,7 @@ router.get('/:userId', function (req, res) {
  *                favorite:
  *                  $ref: '#/components/schemas/Favorite'
  */
-router.post('/:id', async (req, res) => {
+router.post('/:id', authRequired, async (req, res) => {
   const favorite = req.body;
   if (favorite) {
     const id = req.params.id;
@@ -207,7 +207,7 @@ router.post('/:id', async (req, res) => {
  *                favorite:
  *                  $ref: '#/components/schemas/Favorite'
  */
-router.delete('/:id', function (req, res) {
+router.delete('/:id', authRequired, function (req, res) {
   const id = req.params.id;
   try {
     Favorites.findById(id).then((favorite) => {
