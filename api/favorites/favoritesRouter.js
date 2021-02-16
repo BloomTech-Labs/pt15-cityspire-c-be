@@ -25,10 +25,10 @@ const router = express.Router();
  *        city_id:
  *          type: string
  *      example:
- *        users_id: '00ulthapbErVUwVJy4x6',
- *         lat: 40.709397,
- *         lng: -73.9231657,
- *         city_id: 'sFsd342FgsD32',
+ *        users_id: '00ulthapbErVUwVJy4x6'
+ *        lat: 40.709397
+ *        lng: -73.9231657
+ *        city_id: 'sFsd342FgsD32'
  *
  * /favorite:
  *  get:
@@ -52,7 +52,7 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', authRequired, function (req, res) {
+router.get('/', function (req, res) {
   Favorites.findAll()
     .then((favorites) => {
       res.status(200).json(favorites);
@@ -98,7 +98,7 @@ router.get('/', authRequired, function (req, res) {
  *      404:
  *        description: 'User not found'
  */
-router.get('/:userId', authRequired, function (req, res) {
+router.get('/:userId', function (req, res) {
   const id = String(req.params.userId);
   Favorites.findByUserId(id)
     .then((favorite) => {
@@ -151,13 +151,13 @@ router.get('/:userId', authRequired, function (req, res) {
  *                favorite:
  *                  $ref: '#/components/schemas/Favorite'
  */
-router.post('/:id', authRequired, async (req, res) => {
+router.post('/:id', async (req, res) => {
   const favorite = req.body;
   if (favorite) {
     const id = req.params.id;
     try {
       await Favorites.findById(id).then(async (fav) => {
-        if (fav == undefined) {
+        if (!fav) {
           //favorite not found so lets insert it
           await Favorites.create(favorite).then((favorite) =>
             res
@@ -207,18 +207,20 @@ router.post('/:id', authRequired, async (req, res) => {
  *                favorite:
  *                  $ref: '#/components/schemas/Favorite'
  */
-router.delete('/:id', authRequired, function (req, res) {
+router.delete('/:id', function (req, res) {
   const id = req.params.id;
   try {
     Favorites.findById(id).then((favorite) => {
-      Favorites.remove(favorite.id).then(() => {
-        res
-          .status(200)
-          .json({
+      if (favorite) {
+        Favorites.remove(id).then(() => {
+          res.status(200).json({
             message: `Favorite '${id}' was deleted.`,
             favorite: favorite,
           });
-      });
+        });
+      } else {
+        res.status(404).json({ message: `Favorite ${id} does not exist!` });
+      }
     });
   } catch (err) {
     res.status(500).json({

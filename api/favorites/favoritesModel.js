@@ -4,16 +4,16 @@ const findAll = async () => {
   return await db('favorites');
 };
 
-const findByUserId = async (id) => {
-  return db('favorites').where({ user_id }).select('*');
+const findByUserId = async (users_id) => {
+  return await db('favorites').where({ users_id }).select('*');
 };
 
 const findById = async (id) => {
-  return db('favorites').where({ id }).select('*');
+  return await db('favorites').where({ id }).first().select('*');
 };
 
 const create = async (favorite) => {
-  return db('favorites').insert(favorite).returning('*');
+  return await db('favorites').insert(favorite).returning('*');
 };
 
 const remove = async (id) => {

@@ -147,7 +147,7 @@ router.get('/viz/:state', authRequired, function (req, res) {
  *        description: Server Error
  */
 
-router.post('/', function (req, res) {
+router.post('/', authRequired, function (req, res) {
   // Capitalizes all city and state names for DS API
   const city = req.body.city.replace(/\b\w/g, (l) => l.toUpperCase());
   const state = req.body.state.replace(/\b\w/g, (l) => l.toUpperCase());
