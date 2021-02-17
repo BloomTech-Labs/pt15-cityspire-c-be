@@ -40,7 +40,7 @@ const authRequired = require('../middleware/authRequired');
  *          type: string
  *    responses:
  *      200:
- *        description: A predition result object
+ *        description: A prediction result object
  *        content:
  *          application/json:
  *            schema:
@@ -108,6 +108,54 @@ router.get('/viz/:state', authRequired, function (req, res) {
 
   dsModel
     .getViz(state)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+});
+
+/**
+ * @swagger
+ * /data:
+ *  post:
+ *    description: Get data for requested city
+ *    summary: Returns city data
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - data
+ *    requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               city:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *    responses:
+ *      200:
+ *        description: Returns a city object with all city data
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      500:
+ *        description: Server Error
+ */
+
+router.post('/', authRequired, function (req, res) {
+  // Capitalizes all city and state names for DS API
+  const city = req.body.city.replace(/\b\w/g, (l) => l.toUpperCase());
+  const state = req.body.state.replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const location = `${city}, ${state}`;
+
+  dsModel
+    .getCityData(location)
     .then((response) => {
       res.status(200).json(response.data);
     })

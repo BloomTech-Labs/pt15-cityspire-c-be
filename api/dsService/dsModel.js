@@ -10,4 +10,8 @@ const getViz = (state) => {
   return dsClient.get(`/viz/${state}`);
 };
 
-module.exports = { getPrediction, getViz };
+const getCityData = (location) => {
+  return dsClient.post(`/location/data`, { location });
+};
+
+module.exports = { getPrediction, getViz, getCityData };
