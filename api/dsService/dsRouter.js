@@ -165,4 +165,35 @@ router.post('/', authRequired, function (req, res) {
     });
 });
 
+/**
+ * @swagger
+ * /data/locations:
+ *  get:
+ *    description: Get list of cities available from DS Database
+ *    summary: Returns list of available cities
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - data
+ *    responses:
+ *      200:
+ *        description: Returns a list of all cities
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      500:
+ *        description: Server Error
+ */
+
+router.get('/locations', authRequired, function (req, res) {
+  dsModel
+    .getAllLocations()
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+});
+
 module.exports = router;
