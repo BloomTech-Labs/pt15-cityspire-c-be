@@ -14,4 +14,8 @@ const getCityData = (location) => {
   return dsClient.post(`/location/data`, { location });
 };
 
-module.exports = { getPrediction, getViz, getCityData };
+const getAllLocations = () => {
+  return dsClient.get('/locations');
+};
+
+module.exports = { getPrediction, getViz, getCityData, getAllLocations };
