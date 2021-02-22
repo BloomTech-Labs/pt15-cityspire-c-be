@@ -105,7 +105,7 @@ router.get('/:userId', authRequired, function (req, res) {
       if (favorite) {
         res.status(200).json(favorite);
       } else {
-        res.status(404).json({ error: 'UserNotFound' });
+        res.status(404).json({ error: 'FavoriteNotFound' });
       }
     })
     .catch((err) => {
