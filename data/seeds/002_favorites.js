@@ -6,6 +6,9 @@ exports.seed = function (knex) {
       lat: 40.709397,
       lng: -73.9231657,
       city_id: 'sFsd342FgsD32',
+      city: 'Tampa',
+      state: 'florida',
+      zip: 11234,
     },
   ]);
 };
