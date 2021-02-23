@@ -32,6 +32,7 @@ const authRequired = async (req, res, next) => {
       .then(async (data) => {
         const jwtUserObj = makeProfileObj(data.claims);
         const profile = await Profiles.findOrCreateProfile(jwtUserObj);
+        console.log('profile', profile);
         if (profile) {
           req.profile = profile;
         } else {
