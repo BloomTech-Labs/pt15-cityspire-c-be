@@ -32,13 +32,15 @@ const authRequired = async (req, res, next) => {
       .then(async (data) => {
         const jwtUserObj = makeProfileObj(data.claims);
         const profile = await Profiles.findOrCreateProfile(jwtUserObj);
-        console.log('profile', profile);
         if (profile) {
           req.profile = profile;
         } else {
           throw new Error('Unable to process idToken');
         }
         next();
+      })
+      .catch((err) => {
+        next(createError(401, err.message));
       });
   } catch (err) {
     next(createError(401, err.message));
