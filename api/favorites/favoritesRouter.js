@@ -52,7 +52,7 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', function (req, res) {
+router.get('/', authRequired, function (req, res) {
   Favorites.findAll()
     .then((favorites) => {
       res.status(200).json(favorites);
