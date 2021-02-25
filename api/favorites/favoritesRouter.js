@@ -151,29 +151,19 @@ router.get('/:userId', authRequired, function (req, res) {
  *                favorite:
  *                  $ref: '#/components/schemas/Favorite'
  */
-router.post('/:id', authRequired, async (req, res) => {
+router.post('/', authRequired, async (req, res) => {
   const favorite = req.body;
   if (favorite) {
-    const id = req.params.id;
     try {
-      await Favorites.findById(id).then(async (fav) => {
-        if (!fav) {
-          //favorite not found so lets insert it
-          await Favorites.create(favorite).then((favorite) =>
-            res
-              .status(200)
-              .json({ message: 'favorite created', favorite: favorite[0] })
-          );
-        } else {
-          res.status(400).json({ message: 'Favorite already exists' });
-        }
-      });
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: e.message });
+      const newFave = await Favorites.create(favorite);
+      res
+        .status(200)
+        .json({ message: 'favorite created', favorite: newFave[0] });
+    } catch (error) {
+      res.status(500).json({ message: 'Missing Data', error: error });
     }
   } else {
-    res.status(404).json({ message: 'Favorite missing' });
+    res.status(400).json({ message: 'Incomplete Data, please retry' });
   }
 });
 
