@@ -76,8 +76,9 @@ router.get('/', authRequired, function (req, res) {
 router.get('/authenticate', authRequired, (req, res) => {
   if (req.profile) {
     res.status(200).json(req.profile);
+  } else {
+    res.status(500).json({ error: 'could not authenticate user' });
   }
-  res.status(500).json({ error: 'could not authenticate user' });
 });
 
 /**
