@@ -160,6 +160,7 @@ router.post('/', authRequired, async (req, res) => {
         .status(200)
         .json({ message: 'favorite created', favorite: newFave[0] });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: 'Missing Data', error: error });
     }
   } else {
