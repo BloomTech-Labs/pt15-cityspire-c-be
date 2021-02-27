@@ -3,6 +3,8 @@ const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
 
+const axios = require('axios');
+
 /**
  * @swagger
  * /data/predict/{x1}/{x2}/{x3}:
@@ -193,6 +195,26 @@ router.get('/locations', authRequired, function (req, res) {
     .catch((error) => {
       console.error(error);
       res.status(500).json(error);
+    });
+});
+
+//THESE ARE THE PROXY ENDPOINTS
+
+router.get('/city', (req, res) => {
+  console.log(req.body);
+
+  axios
+    .post(
+      'http://cityspire00n.eba-diy2emuk.us-east-1.elasticbeanstalk.com/location/data',
+      req.body
+    )
+    .then((res) => {
+      console.log(res);
+      res.status(200).json(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: 'proxy failed' });
     });
 });
 
